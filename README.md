@@ -4,8 +4,7 @@ A complete toolchain written from scratch in C++17: a **single-pass assembler**,
 **architecture-independent linker**, and an **interpretive emulator** for a 32-bit
 abstract computer system with a terminal and a timer peripheral.
 
-This was built as a university project for the *System Software* course
-(Faculty of Electrical Engineering, University of Belgrade). The source code
+This was built as a university project for the *System Software* course. The source code
 identifiers and comments are in Serbian; this README maps everything to English
 so the code can be read by anyone.
 
