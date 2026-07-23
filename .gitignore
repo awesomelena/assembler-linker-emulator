@@ -1,0 +1,11 @@
+# Build artifacts
+asembler
+assembler
+linker
+emulator
+*.o
+*.hex
+
+# Editor / OS
+.vscode/
+*.swp
