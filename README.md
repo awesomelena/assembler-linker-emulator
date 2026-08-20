@@ -4,10 +4,6 @@ A complete toolchain written from scratch in C++17: a **single-pass assembler**,
 **architecture-independent linker**, and an **interpretive emulator** for a 32-bit
 abstract computer system with a terminal and a timer peripheral.
 
-This was built as a university project for the *System Software* course. The source code
-identifiers and comments are in Serbian; this README maps everything to English
-so the code can be read by anyone.
-
 ---
 
 ## What the toolchain does
@@ -20,8 +16,7 @@ so the code can be read by anyone.
 ```
 
 **Assembler** translates one assembly source file into an *object file* containing
-machine code plus metadata (symbol table, relocation records). It is **single-pass**:
-it cannot look ahead, so forward references are recorded as relocations and resolved
+machine code plus symbol table and relocation records. It is single-pass, so forward references are recorded as relocations and resolved
 later rather than by a second scan.
 
 **Linker** merges one or more object files: it concatenates same-named sections,
@@ -37,12 +32,12 @@ mechanism, a terminal (keyboard + display) and a periodic timer.
 
 ## Target architecture (summary)
 
-- 32-bit, von Neumann, byte-addressable, **little-endian**
+- 32-bit, von Neumann, byte-addressable, little-endian
 - 2³² byte address space; execution starts at `0x40000000` after reset
 - 16 general-purpose registers `r0`–`r15`, where `r0` is hardwired to zero,
   `r14` = stack pointer, `r15` = program counter
 - Control/status registers: `status`, `handler`, `cause`
-- **Fixed 4-byte instructions** with the layout:
+- Fixed 4-byte instructions with the layout:
 
 ```
   byte 0      byte 1        byte 2         byte 3
@@ -50,8 +45,8 @@ mechanism, a terminal (keyboard + display) and a periodic timer.
   4    4     4     4       4     4          8      bits
 ```
 
-- `Disp` is a **12-bit signed displacement**. Because 32-bit constants and addresses
-  do not fit in 12 bits, the assembler uses a **literal pool** placed at the end of
+- `Disp` is a 12-bit signed displacement. Because 32-bit constants and addresses
+  do not fit in 12 bits, the assembler uses a literal pool placed at the end of
   each section, and instructions reach it PC-relatively.
 - Memory-mapped peripheral registers: `term_out` at `0xFFFFFF00`,
   `term_in` at `0xFFFFFF04`, `tim_cfg` at `0xFFFFFF10`
@@ -65,9 +60,6 @@ Requires a Linux environment (or WSL) with `g++` supporting C++17, and `make`.
 ```bash
 make                 # builds asembler, assembler, linker, emulator
 ```
-
-Note: `assembler` is an identical copy of `asembler` — the course specification uses
-the Serbian name, while the official test scripts invoke the English one.
 
 Example: assemble two files, link them to fixed addresses, and run.
 
@@ -138,8 +130,6 @@ meaning of each filename and describe what the module does.
 ---
 
 ## Design notes
-
-A few decisions worth explaining, since they shape the code.
 
 **The literal pool.** The 12-bit displacement cannot hold a 32-bit constant or
 address. Instead of embedding the value in the instruction, the assembler appends it
